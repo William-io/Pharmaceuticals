@@ -1,5 +1,11 @@
+
+
+using Dapper.Contrib.Extensions;
+
 namespace Pharmaceuticals.Models
 {
+    //Vai buscar na tabela via meta dados
+    [Table("[Laboratory]")]
     public class Laboratory
     {
         public int Id { get; set; }

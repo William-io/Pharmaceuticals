@@ -4,9 +4,10 @@ using Dapper;
 using Dapper.Contrib.Extensions;
 using Pharmaceuticals.Models;
 
-Console.WriteLine("///");
 
-const string CONNECTION_STRING = @"Data Source=(localdb)\\MSSQLLocalDB;Database=Laboratory;Trusted_Connection=True;MultipleActiveResultSets=True;";
+const string CONNECTION_STRING = @"Data Source=(localdb)\MSSQLLocalDB;Database=Medicament;Trusted_Connection=True;MultipleActiveResultSets=True;";
+
+ReadLaboratories();
 
 static void ReadLaboratories()
 {
@@ -19,6 +20,5 @@ static void ReadLaboratories()
             Console.WriteLine(laboratory.Name);
         }
     }
-
 }
 
