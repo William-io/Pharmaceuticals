@@ -7,36 +7,38 @@ using Pharmaceuticals.Repository;
 
 const string CONNECTION_STRING = @"Data Source=(localdb)\MSSQLLocalDB;Database=Medicament;Trusted_Connection=True;MultipleActiveResultSets=True;";
 
+var connection = new SqlConnection(CONNECTION_STRING);
+connection.Open();
+
 // ReadLaboratories();
 // ReadLaboratory();
 // CreateLaboratory();
 // UpdateLaboratory();
 // DeleteLaboratory();
+connection.Close();
 
 
 
-static void ReadLaboratories()
+static void ReadLaboratories(SqlConnection connection)
 {
-    var repository = new LaboratoryRepository();
+    var repository = new LaboratoryRepository(connection);
     var laboratories = repository.Get();
 
     foreach (var laboratory in laboratories)
-    {
         Console.WriteLine(laboratory.Name);
-    }
+
 }
 
-//Vai buscar apenas um laboratorio da lista
+
 static void ReadLaboratory()
 {
-    using (var connection = new SqlConnection(CONNECTION_STRING))
+    using (var connection = new SqlConnection())
     {
         var laboratory = connection.Get<Laboratory>(1);
         Console.WriteLine(laboratory.Name);
     }
 }
 
-//Criar novo laboratorio
 static void CreateLaboratory()
 {
     var laboratory = new Laboratory()
