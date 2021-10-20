@@ -10,83 +10,40 @@ const string CONNECTION_STRING = @"Data Source=(localdb)\MSSQLLocalDB;Database=M
 var connection = new SqlConnection(CONNECTION_STRING);
 connection.Open();
 
-// ReadLaboratories();
-// ReadLaboratory();
-// CreateLaboratory();
-// UpdateLaboratory();
-// DeleteLaboratory();
-connection.Close();
+ReadLaboratories(connection);
+ReadRoles(connection);
+ReadTags(connection);
 
+connection.Close();
 
 
 static void ReadLaboratories(SqlConnection connection)
 {
-    var repository = new LaboratoryRepository(connection);
+    var repository = new Repository<Laboratory>(connection);
     var laboratories = repository.Get();
+
+    // repository.Delete(1);
 
     foreach (var laboratory in laboratories)
         Console.WriteLine(laboratory.Name);
-
 }
 
-
-static void ReadLaboratory()
+static void ReadRoles(SqlConnection connection)
 {
-    using (var connection = new SqlConnection())
-    {
-        var laboratory = connection.Get<Laboratory>(1);
-        Console.WriteLine(laboratory.Name);
-    }
+    var repository = new Repository<Role>(connection);
+    var items = repository.Get();
+
+    foreach (var item in items)
+        Console.WriteLine(item.Name);
 }
 
-static void CreateLaboratory()
+static void ReadTags(SqlConnection connection)
 {
-    var laboratory = new Laboratory()
-    {
-        Email = "capuletos@live.com",
-        Address = "Professor Teodorico",
-        Image = "https://....",
-        Name = "Cept laboratory",
-        PasswordHash = "HASH",
-        Slug = "equipe-medic",
-        CNPJ = "07.426.627/0001"
-    };
-    using (var connection = new SqlConnection(CONNECTION_STRING))
-    {
-        connection.Insert<Laboratory>(laboratory);
-        Console.WriteLine("Cadastro realizado com sucesso!");
-    }
+    var repository = new Repository<Tag>(connection);
+    var items = repository.Get();
+
+    foreach (var item in items)
+        Console.WriteLine(item.Name);
 }
 
-//Update
-static void UpdateLaboratory()
-{
-    var laboratory = new Laboratory()
-    {
-        Id = 2,
-        Email = "william@live.com",
-        Address = "Professor Teodorico",
-        Image = "https://....",
-        Name = "Cept laboratory",
-        PasswordHash = "HASH",
-        Slug = "equipe-medic",
-        CNPJ = "07.426.627/0001"
-    };
-    using (var connection = new SqlConnection(CONNECTION_STRING))
-    {
-        connection.Insert<Laboratory>(laboratory);
-        Console.WriteLine("Atualização realizada com sucesso!");
-    }
-}
-
-//Delete
-
-static void DeleteLaboratory()
-{
-    using (var connection = new SqlConnection(CONNECTION_STRING))
-    {
-        var laboratory = connection.Get<Laboratory>(2);
-        connection.Delete<Laboratory>(laboratory);
-        Console.WriteLine("Deletado com sucesso!");
-    }
-}
+//03:13
